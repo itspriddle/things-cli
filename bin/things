@@ -416,7 +416,7 @@ add-project() {
     title="$(urlencode "$raw_input")"
   fi
 
-  [[ "$title" ]] && url="${url}title=$(urlencode "$title")"
+  [[ "$title" ]] && url="${url}title=$title"
 
   [[ "$when" ]] && url="${url}when=$when&"
 
@@ -503,21 +503,21 @@ show() {
   done
 
   if [[ $# -eq 1 ]] && [[ $1 == "-" ]]; then
-    query="$(cat)"
+    query="$(urlencode "$(cat)")"
   elif [[ $# -gt 0 ]]; then
-    query="$*"
+    query="$(urlencode "$*")"
   fi
 
   if [[ "$id" ]]; then
-    url="${url}id=$(urlencode "$id")&"
+    url="${url}id=$id&"
   elif [[ "$query" ]]; then
-    url="${url}query=$(urlencode "$query")&"
+    url="${url}query=$query&"
   else
     echo "Error: Must specify --id=ID or query" >&2
     return 1
   fi
 
-  [[ "$filter" ]] && url="${url}filter=$(urlencode "$filter")&"
+  [[ "$filter" ]] && url="${url}filter=$filter&"
 
   launch "$url"
 }
@@ -700,8 +700,8 @@ update() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --auth-token=?*) auth_token="${1#*=}"; shift ;;
-      --id=?*) id="${1#*=}"; shift ;;
+      --auth-token=?*) auth_token="$(urlencode "${1#*=}")"; shift ;;
+      --id=?*) id="$(urlencode "${1#*=}")"; shift ;;
       --notes=?*) notes="$(urlencode "${1#*=}")"; shift ;;
       --prepend-notes=?*) prepend_notes="$(urlencode "${1#*=}")"; shift ;;
       --append-notes=?*) append_notes="$(urlencode "${1#*=}")"; shift ;;
@@ -740,14 +740,14 @@ update() {
   done
 
   if [[ "$auth_token" ]]; then
-    url="${url}auth-token=$(urlencode "$auth_token")&"
+    url="${url}auth-token=$auth_token&"
   else
     echo "Error: Must specify --auth-token=token" >&2
     return 1
   fi
 
   if [[ "$id" ]]; then
-    url="${url}id=$(urlencode "$id")&"
+    url="${url}id=$id&"
   else
     echo "Error: Must specify --id=id" >&2
     return 1
@@ -926,8 +926,8 @@ update-project() {
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
-      --auth-token=?*) auth_token="${1#*=}"; shift ;;
-      --id=?*) id="${1#*=}"; shift ;;
+      --auth-token=?*) auth_token="$(urlencode "${1#*=}")"; shift ;;
+      --id=?*) id="$(urlencode "${1#*=}")"; shift ;;
       --notes=?*) notes="$(urlencode "${1#*=}")"; shift ;;
       --prepend-notes=?*) prepend_notes="$(urlencode "${1#*=}")"; shift ;;
       --append-notes=?*) append_notes="$(urlencode "${1#*=}")"; shift ;;
@@ -963,14 +963,14 @@ update-project() {
   done
 
   if [[ "$auth_token" ]]; then
-    url="${url}auth-token=$(urlencode "$auth_token")&"
+    url="${url}auth-token=$auth_token&"
   else
     echo "Error: Must specify --auth-token=token" >&2
     return 1
   fi
 
   if [[ "$id" ]]; then
-    url="${url}id=$(urlencode "$id")&"
+    url="${url}id=$id&"
   else
     echo "Error: Must specify --id=id" >&2
     return 1
@@ -1038,7 +1038,7 @@ urlencode() {
     : "${1:i:1}"
     case "$_" in
       [a-zA-Z0-9.~_-]) printf '%s' "$_" ;;
-      *) printf '%%%02x' "'$_" ;;
+      *) printf '%%%02X' "'$_" ;;
     esac
   done
 
