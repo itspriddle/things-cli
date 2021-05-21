@@ -18,7 +18,7 @@ CLI for [Things 3][] by Cultured Code.
 
 ```
 mkdir -p /usr/local/bin
-curl -O /usr/local/bin/things https://github.com/itspriddle/things-cli/raw/master/bin/things
+curl -o /usr/local/bin/things -L https://github.com/itspriddle/things-cli/raw/master/bin/things
 chmod +x /usr/local/bin/things
 ```
 
