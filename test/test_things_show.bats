@@ -2,8 +2,8 @@ load test_helper
 
 @test "things show --id= option is required" {
   run things show
-  assert_output "Error: Must specify --id=ID or query"
-  assert_success
+  assert_output --partial "Must specify --id=ID or query"
+  assert_failure
 }
 
 @test "things show --filter= option" {
