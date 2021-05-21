@@ -60,7 +60,7 @@ set -euo pipefail
 # DESCRIPTION
 #   Prints documentation for things-cli commands.
 help() {
-  local cmd="$1" usage="${2:-}" pattern="^# Usage: ${0##*/}"
+  local cmd=$1 usage="${2:-}" pattern="^# Usage: ${0##*/}"
 
   if [[ "$cmd" == "-h" ]]; then
     cmd=
