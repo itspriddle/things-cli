@@ -69,7 +69,7 @@ help() {
 
   [[ "$cmd" ]] && pattern="$pattern $cmd "
 
-  if ! grep -q "$pattern" "$0"; then
+  if ! grep -q $pattern "$0"; then
     echo "Error: Invalid command \`${0##*/} $cmd'" >&2
     return 1
   fi
