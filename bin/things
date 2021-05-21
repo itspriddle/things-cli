@@ -205,7 +205,7 @@ add() {
     creation_date completion_date tags completed canceled heading raw_input \
     use_clipboard
 
-  local -a checklist_items=()
+  local -a checklist_items=() titles=()
 
   while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -213,14 +213,14 @@ add() {
       --deadline=?*) deadline="$(urlencode "${1#*=}")"; shift ;;
       --completed) completed=1; shift ;;
       --canceled|--cancelled) canceled=1; shift ;;
-      --checklist-item=?*) checklist_items=("${checklist_items[@]:-}" "$(urlencode "${1#*=}")"); shift ;;
+      --checklist-item=?*) checklist_items+=("$(urlencode "${1#*=}")"); shift ;;
       --creation-date=?*) creation_date="$(urlencode "${1#*=}")"; shift ;;
       --completion-date=?*) completion_date="$(urlencode "${1#*=}")"; shift ;;
       --list=?*) list="$(urlencode "${1#*=}")"; shift ;;
       --list-id=?*) list_id="$(urlencode "${1#*=}")"; shift ;;
       --heading=?*) heading="$(urlencode "${1#*=}")"; shift ;;
       --reveal) reveal=1; shift ;;
-      --show-quick-entry|--preview) show_quick_entry=1; shift ;;
+      --show-quick-entry) show_quick_entry=1; shift ;;
       --notes=?*) notes="$(urlencode "${1#*=}")"; shift ;;
       --tags=?*) tags="$(urlencode "${1#*=}")"; shift ;;
       --titles=?*) IFS=',' read -ra titles <<< "${1#*=}"; shift ;;
@@ -266,6 +266,10 @@ add() {
   [[ "$deadline" ]] && url="${url}deadline=$deadline&"
 
   if [[ "${#titles[@]}" -gt 0 ]]; then
+    local i
+    for (( i = 0; i < "${#titles[@]}"; i++ )); do
+      titles[$i]="$(urlencode "${titles[$i]}")"
+    done
     url="${url}titles=$(join "${titles[@]}")"
   elif [[ "$title" ]]; then
     url="${url}title=$title&"
