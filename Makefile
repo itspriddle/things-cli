@@ -4,7 +4,7 @@ test: test-shellcheck test-bats
 .PHONY: test-shellcheck
 
 test-shellcheck:
-	shellcheck -f gcc -s bash bin/things
+	shellcheck -f gcc -s bash bin/things test/*.bats test/*.bash
 
 .PHONY: test-bats
 test-bats: bats-setup
