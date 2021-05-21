@@ -916,6 +916,10 @@ update() {
 #     date is in the future. This field cannot be updated on repeating
 #     projects. Optional.
 #
+#   --todo=TITLE
+#     Title of a todo to add to the project. Can be specified more than once
+#     to add multiple todos. Optional.
+#
 # EXAMPLES
 #   XXX
 #
@@ -923,8 +927,9 @@ update() {
 #   Authorization: https://culturedcode.com/things/support/articles/2803573/#overview-authorization
 update-project() {
   local url="things:///update-project?" \
-    auth_token id notes prepend_notes when deadline tags add_tags area_id \
-    area completed canceled reveal duplicate completion_date creation_date
+    auth_token id notes append_notes prepend_notes when deadline tags \
+    add_tags area_id  area completed canceled reveal duplicate \
+    completion_date creation_date raw_input title
 
   local -a todos=()
 
@@ -992,6 +997,8 @@ update-project() {
   elif [[ "$raw_input" ]]; then
     title="$(urlencode "$raw_input")"
   fi
+
+  [[ "$title" ]] && url="${url}title=$title&"
 
   [[ "$prepend_notes" ]] && url="${url}prepend-notes=$prepend_notes&"
 
