@@ -10,3 +10,14 @@ setup() {
   # make executables in bin/ and test/bin visible to PATH
   PATH="$DIR/../bin:$DIR/../test/bin:$PATH"
 }
+
+# Joins the given arguments with "%0A" to format multiline entries for Things.
+#
+# $@ - strings to join
+join() {
+  local output
+
+  output="$(printf "%s%%0A" "$@")"
+
+  echo "${output%\%0A}"
+}

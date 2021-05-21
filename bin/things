@@ -362,6 +362,10 @@ add() {
 #     for that time. The time component is ignored if anytime or someday is
 #     specified. Optional.
 #
+#   --todo=TITLE
+#     Title of a todo to add to the project. Can be specified more than once
+#     to add multiple todos. Optional.
+#
 # EXAMPLES
 #   things add-project "Take over the world"
 add-project() {
@@ -384,7 +388,7 @@ add-project() {
       --reveal) reveal=1; shift ;;
       --tags=?*) tags="$(urlencode "${1#*=}")"; shift ;;
       --when=?*) when="$(urlencode "${1#*=}")"; shift ;;
-      --todo=?*) todos=("${todos[@]:-}" "$(urlencode "${1#*=}")"); shift ;;
+      --todo=?*) todos+=("$(urlencode "${1#*=}")"); shift ;;
       -h | --help)
         help "${FUNCNAME[0]}" "$([[ "$1" == "-h" ]] && echo 1)"
         return 0
@@ -416,7 +420,7 @@ add-project() {
     title="$(urlencode "$raw_input")"
   fi
 
-  [[ "$title" ]] && url="${url}title=$title"
+  [[ "$title" ]] && url="${url}title=$title&"
 
   [[ "$when" ]] && url="${url}when=$when&"
 
@@ -943,7 +947,7 @@ update-project() {
       --duplicate) duplicate=1; shift ;;
       --completion-date=?*) completion_date="$(urlencode "${1#*=}")"; shift ;;
       --creation-date=?*) creation_date="$(urlencode "${1#*=}")"; shift ;;
-      --todo=?*) todos=("${todos[@]:-}" "$(urlencode "${1#*=}")"); shift ;;
+      --todo=?*) todos+=("$(urlencode "${1#*=}")"); shift ;;
       -h | --help)
         help "${FUNCNAME[0]}" "$([[ "$1" == "-h" ]] && echo 1)"
         return 0
