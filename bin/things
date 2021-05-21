@@ -249,21 +249,21 @@ add() {
     raw_input="$*"
   fi
 
-  if [[ "$raw_input" ]] && [[ $(wc -l <<< "$raw_input") -gt 1 ]]; then
+  if [[ "${raw_input:-}" ]] && [[ $(wc -l <<< "$raw_input") -gt 1 ]]; then
     title="$(urlencode "$(find_title "$raw_input")")"
     notes="$(urlencode "$(find_notes "$raw_input")")"
-  elif [[ "$raw_input" ]]; then
+  elif [[ "${raw_input:-}" ]]; then
     title="$(urlencode "$raw_input")"
   fi
 
-  [[ -z "$title" ]] && show_quick_entry=1
+  [[ -z "${title:-}" ]] && show_quick_entry=1
 
   [[ "${#checklist_items[@]}" -gt 0 ]] &&
     url="${url}checklist-items=$(join "${checklist_items[@]}")&"
 
-  [[ "$when" ]] && url="${url}when=$when&"
+  [[ "${when:-}" ]] && url="${url}when=$when&"
 
-  [[ "$deadline" ]] && url="${url}deadline=$deadline&"
+  [[ "${deadline:-}" ]] && url="${url}deadline=$deadline&"
 
   if [[ "${#titles[@]}" -gt 0 ]]; then
     local i
@@ -271,35 +271,35 @@ add() {
       titles[$i]="$(urlencode "${titles[$i]}")"
     done
     url="${url}titles=$(join "${titles[@]}")"
-  elif [[ "$title" ]]; then
+  elif [[ "${title:-}" ]]; then
     url="${url}title=$title&"
   fi
 
-  [[ "$notes" ]] && url="${url}notes=$notes&"
+  [[ "${notes:-}" ]] && url="${url}notes=$notes&"
 
-  [[ "$use_clipboard" ]] && url="${url}use-clipboard=$use_clipboard&"
+  [[ "${use_clipboard:-}" ]] && url="${url}use-clipboard=$use_clipboard&"
 
-  [[ "$heading" ]] && url="${url}heading=$heading&"
+  [[ "${heading:-}" ]] && url="${url}heading=$heading&"
 
-  [[ "$show_quick_entry" ]] && url="${url}show-quick-entry=true&"
+  [[ "${show_quick_entry:-}" ]] && url="${url}show-quick-entry=true&"
 
-  [[ "$reveal" ]] && url="${url}reveal=true&"
+  [[ "${reveal:-}" ]] && url="${url}reveal=true&"
 
-  [[ "$tags" ]] && url="${url}tags=$tags&"
+  [[ "${tags:-}" ]] && url="${url}tags=$tags&"
 
-  [[ "$creation_date" ]] && url="${url}creation-date=$creation_date&"
+  [[ "${creation_date:-}" ]] && url="${url}creation-date=$creation_date&"
 
-  [[ "$completion_date" ]] && url="${url}completion-date=$completion_date&"
+  [[ "${completion_date:-}" ]] && url="${url}completion-date=$completion_date&"
 
-  if [[ "$canceled" ]]; then
+  if [[ "${canceled:-}" ]]; then
     url="${url}canceled=true&"
-  elif [[ "$completed" ]]; then
+  elif [[ "${completed:-}" ]]; then
     url="${url}completed=true&"
   fi
 
-  if [[ "$list_id" ]]; then
+  if [[ "${list_id:-}" ]]; then
     url="${url}list-id=$list_id&"
-  elif [[ "$list" ]]; then
+  elif [[ "${list:-}" ]]; then
     url="${url}list=$list&"
   fi
 
@@ -417,40 +417,40 @@ add-project() {
     raw_input="$*"
   fi
 
-  if [[ "$raw_input" ]] && [[ $(wc -l <<< "$raw_input") -gt 1 ]]; then
+  if [[ "${raw_input:-}" ]] && [[ $(wc -l <<< "$raw_input") -gt 1 ]]; then
     title="$(urlencode "$(find_title "$raw_input")")"
     notes="$(urlencode "$(find_notes "$raw_input")")"
-  elif [[ "$raw_input" ]]; then
+  elif [[ "${raw_input:-}" ]]; then
     title="$(urlencode "$raw_input")"
   fi
 
-  [[ "$title" ]] && url="${url}title=$title&"
+  [[ "${title:-}" ]] && url="${url}title=$title&"
 
-  [[ "$when" ]] && url="${url}when=$when&"
+  [[ "${when:-}" ]] && url="${url}when=$when&"
 
-  [[ "$deadline" ]] && url="${url}deadline=$deadline&"
+  [[ "${deadline:-}" ]] && url="${url}deadline=$deadline&"
 
   [[ "${#todos[@]}" -gt 0 ]] && url="${url}to-dos=$(join "${todos[@]}")&"
 
-  [[ "$reveal" ]] && url="${url}reveal=true&"
+  [[ "${reveal:-}" ]] && url="${url}reveal=true&"
 
-  [[ "$tags" ]] && url="${url}tags=$tags&"
+  [[ "${tags:-}" ]] && url="${url}tags=$tags&"
 
-  [[ "$notes" ]] && url="${url}notes=${notes}&"
+  [[ "${notes:-}" ]] && url="${url}notes=${notes}&"
 
-  [[ "$creation_date" ]] && url="${url}creation-date=$creation_date&"
+  [[ "${creation_date:-}" ]] && url="${url}creation-date=$creation_date&"
 
-  [[ "$completion_date" ]] && url="${url}completion-date=$completion_date&"
+  [[ "${completion_date:-}" ]] && url="${url}completion-date=$completion_date&"
 
-  if [[ "$canceled" ]]; then
+  if [[ "${canceled:-}" ]]; then
     url="${url}canceled=true&"
-  elif [[ "$completed" ]]; then
+  elif [[ "${completed:-}" ]]; then
     url="${url}completed=true&"
   fi
 
-  if [[ "$area_id" ]]; then
+  if [[ "${area_id:-}" ]]; then
     url="${url}area-id=$area_id&"
-  elif [[ "$area" ]]; then
+  elif [[ "${area:-}" ]]; then
     url="${url}area=$area&"
   fi
 
@@ -516,16 +516,16 @@ show() {
     query="$(urlencode "$*")"
   fi
 
-  if [[ "$id" ]]; then
+  if [[ "${id:-}" ]]; then
     url="${url}id=$id&"
-  elif [[ "$query" ]]; then
+  elif [[ "${query:-}" ]]; then
     url="${url}query=$query&"
   else
     echo "Error: Must specify --id=ID or query" >&2
     return 1
   fi
 
-  [[ "$filter" ]] && url="${url}filter=$filter&"
+  [[ "${filter:-}" ]] && url="${url}filter=$filter&"
 
   launch "$url"
 }
@@ -748,14 +748,14 @@ update() {
     esac
   done
 
-  if [[ "$auth_token" ]]; then
+  if [[ "${auth_token:-}" ]]; then
     url="${url}auth-token=$auth_token&"
   else
     echo "Error: Must specify --auth-token=token" >&2
     return 1
   fi
 
-  if [[ "$id" ]]; then
+  if [[ "${id:-}" ]]; then
     url="${url}id=$id&"
   else
     echo "Error: Must specify --id=id" >&2
@@ -768,14 +768,14 @@ update() {
     raw_input="$*"
   fi
 
-  if [[ "$raw_input" ]] && [[ $(wc -l <<< "$raw_input") -gt 1 ]]; then
+  if [[ "${raw_input:-}" ]] && [[ $(wc -l <<< "$raw_input") -gt 1 ]]; then
     title="$(urlencode "$(find_title "$raw_input")")"
     notes="$(urlencode "$(find_notes "$raw_input")")"
-  elif [[ "$raw_input" ]]; then
+  elif [[ "${raw_input:-}" ]]; then
     title="$(urlencode "$raw_input")"
   fi
 
-  [[ "$title" ]] && url="${url}title=$title&"
+  [[ "${title:-}" ]] && url="${url}title=$title&"
 
   [[ "${#checklist_items[@]}" -gt 0 ]] &&
     url="${url}checklist-items=$(join "${checklist_items[@]}")&"
@@ -786,39 +786,39 @@ update() {
   [[ "${#append_checklist_items[@]}" -gt 0 ]] &&
     url="${url}append-checklist-items=$(join "${append_checklist_items[@]}")&"
 
-  [[ "$prepend_notes" ]] && url="${url}prepend-notes=$prepend_notes&"
+  [[ "${prepend_notes:-}" ]] && url="${url}prepend-notes=$prepend_notes&"
 
-  [[ "$append_notes" ]] && url="${url}append-notes=$append_notes&"
+  [[ "${append_notes:-}" ]] && url="${url}append-notes=$append_notes&"
 
-  [[ "$heading" ]] && url="${url}heading=$heading&"
+  [[ "${heading:-}" ]] && url="${url}heading=$heading&"
 
-  [[ "$duplicate" ]] && url="${url}duplicate=true&"
+  [[ "${duplicate:-}" ]] && url="${url}duplicate=true&"
 
-  [[ "$when" ]] && url="${url}when=$when&"
+  [[ "${when:-}" ]] && url="${url}when=$when&"
 
-  [[ "$deadline" ]] && url="${url}deadline=$deadline&"
+  [[ "${deadline:-}" ]] && url="${url}deadline=$deadline&"
 
-  [[ "$reveal" ]] && url="${url}reveal=true&"
+  [[ "${reveal:-}" ]] && url="${url}reveal=true&"
 
-  [[ "$tags" ]] && url="${url}tags=$tags&"
+  [[ "${tags:-}" ]] && url="${url}tags=$tags&"
 
-  [[ "$add_tags" ]] && url="${url}add-tags=$add_tags&"
+  [[ "${add_tags:-}" ]] && url="${url}add-tags=$add_tags&"
 
-  [[ "$notes" ]] && url="${url}notes=$notes&"
+  [[ "${notes:-}" ]] && url="${url}notes=$notes&"
 
-  [[ "$creation_date" ]] && url="${url}creation-date=$creation_date&"
+  [[ "${creation_date:-}" ]] && url="${url}creation-date=$creation_date&"
 
-  [[ "$completion_date" ]] && url="${url}completion-date=$completion_date&"
+  [[ "${completion_date:-}" ]] && url="${url}completion-date=$completion_date&"
 
-  if [[ "$canceled" ]]; then
+  if [[ "${canceled:-}" ]]; then
     url="${url}canceled=true&"
-  elif [[ "$completed" ]]; then
+  elif [[ "${completed:-}" ]]; then
     url="${url}completed=true&"
   fi
 
-  if [[ "$list_id" ]]; then
+  if [[ "${list_id:-}" ]]; then
     url="${url}list-id=$list_id&"
-  elif [[ "$list" ]]; then
+  elif [[ "${list:-}" ]]; then
     url="${url}list=$list&"
   fi
 
@@ -978,14 +978,14 @@ update-project() {
     esac
   done
 
-  if [[ "$auth_token" ]]; then
+  if [[ "${auth_token:-}" ]]; then
     url="${url}auth-token=$auth_token&"
   else
     echo "Error: Must specify --auth-token=token" >&2
     return 1
   fi
 
-  if [[ "$id" ]]; then
+  if [[ "${id:-}" ]]; then
     url="${url}id=$id&"
   else
     echo "Error: Must specify --id=id" >&2
@@ -998,48 +998,48 @@ update-project() {
     raw_input="$*"
   fi
 
-  if [[ "$raw_input" ]] && [[ $(wc -l <<< "$raw_input") -gt 1 ]]; then
+  if [[ "${raw_input:-}" ]] && [[ $(wc -l <<< "$raw_input") -gt 1 ]]; then
     title="$(urlencode "$(find_title "$raw_input")")"
     notes="$(urlencode "$(find_notes "$raw_input")")"
-  elif [[ "$raw_input" ]]; then
+  elif [[ "${raw_input:-}" ]]; then
     title="$(urlencode "$raw_input")"
   fi
 
-  [[ "$title" ]] && url="${url}title=$title&"
+  [[ "${title:-}" ]] && url="${url}title=$title&"
 
-  [[ "$prepend_notes" ]] && url="${url}prepend-notes=$prepend_notes&"
+  [[ "${prepend_notes:-}" ]] && url="${url}prepend-notes=$prepend_notes&"
 
-  [[ "$append_notes" ]] && url="${url}append-notes=$append_notes&"
+  [[ "${append_notes:-}" ]] && url="${url}append-notes=$append_notes&"
 
-  [[ "$duplicate" ]] && url="${url}duplicate=true&"
+  [[ "${duplicate:-}" ]] && url="${url}duplicate=true&"
 
-  [[ "$when" ]] && url="${url}when=$when&"
+  [[ "${when:-}" ]] && url="${url}when=$when&"
 
-  [[ "$deadline" ]] && url="${url}deadline=$deadline&"
+  [[ "${deadline:-}" ]] && url="${url}deadline=$deadline&"
 
   [[ "${#todos[@]}" -gt 0 ]] && url="${url}to-dos=$(join "${todos[@]}")&"
 
-  [[ "$reveal" ]] && url="${url}reveal=true&"
+  [[ "${reveal:-}" ]] && url="${url}reveal=true&"
 
-  [[ "$tags" ]] && url="${url}tags=$tags&"
+  [[ "${tags:-}" ]] && url="${url}tags=$tags&"
 
-  [[ "$add_tags" ]] && url="${url}add-tags=$add_tags&"
+  [[ "${add_tags:-}" ]] && url="${url}add-tags=$add_tags&"
 
-  [[ "$notes" ]] && url="${url}notes=$notes&"
+  [[ "${notes:-}" ]] && url="${url}notes=$notes&"
 
-  [[ "$creation_date" ]] && url="${url}creation-date=$creation_date&"
+  [[ "${creation_date:-}" ]] && url="${url}creation-date=$creation_date&"
 
-  [[ "$completion_date" ]] && url="${url}completion-date=$completion_date&"
+  [[ "${completion_date:-}" ]] && url="${url}completion-date=$completion_date&"
 
-  if [[ "$canceled" ]]; then
+  if [[ "${canceled:-}" ]]; then
     url="${url}canceled=true&"
-  elif [[ "$completed" ]]; then
+  elif [[ "${completed:-}" ]]; then
     url="${url}completed=true&"
   fi
 
-  if [[ "$area_id" ]]; then
+  if [[ "${area_id:-}" ]]; then
     url="${url}area-id=$area_id&"
-  elif [[ "$area" ]]; then
+  elif [[ "${area:-}" ]]; then
     url="${url}area=$area&"
   fi
 
