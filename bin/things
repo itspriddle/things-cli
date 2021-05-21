@@ -1123,7 +1123,7 @@ main() {
       ;;
     add|add-project|update|update-project|show|search)
       "$cmd" "$@"
-      return 0
+      return $?
       ;;
     -V|--version)
       echo "things-cli"
