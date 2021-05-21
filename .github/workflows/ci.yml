@@ -9,3 +9,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run ShellCheck
       uses: ludeeus/action-shellcheck@master
+    - name: Install bats
+      run: make bats-setup
+    - name: Run bats
+      run: ./test/bats/bin/bats test
