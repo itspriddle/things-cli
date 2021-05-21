@@ -687,6 +687,7 @@ search() {
 #     Add checklist items to the front of the list of checklist items in the
 #     todo (maximum of 100). Can be specified multiple times on the command
 #     line.
+#
 #   --append-checklist-item=ITEM
 #     Add checklist items to the end of the list of checklist items in the
 #     todo (maximum of 100). Can be specified multiple times on the command
@@ -701,7 +702,7 @@ update() {
   local url="things:///update?" \
     auth_token id notes append_notes prepend_notes when deadline tags \
     add_tags completed canceled reveal duplicate completion_date creation_date \
-    heading list list_id checklist_items
+    heading list list_id checklist_items raw_input title
 
   local -a checklist_items=() prepend_checklist_items=() \
     append_checklist_items=()
@@ -726,9 +727,9 @@ update() {
       --duplicate) duplicate=1; shift ;;
       --completion-date=?*) completion_date="$(urlencode "${1#*=}")"; shift ;;
       --creation-date=?*) creation_date="$(urlencode "${1#*=}")"; shift ;;
-      --checklist-item=?*) checklist_items=("${checklist_items[@]:-}" "$(urlencode "${1#*=}")"); shift ;;
-      --append-checklist-item=?*) append_checklist_items=("${append_checklist_items[@]:-}" "$(urlencode "${1#*=}")"); shift ;;
-      --prepend-checklist-item=?*) prepend_checklist_items=("${prepend_checklist_items[@]:-}" "$(urlencode "${1#*=}")"); shift ;;
+      --checklist-item=?*) checklist_items+=("$(urlencode "${1#*=}")"); shift ;;
+      --append-checklist-item=?*) append_checklist_items+=("$(urlencode "${1#*=}")"); shift ;;
+      --prepend-checklist-item=?*) prepend_checklist_items+=("$(urlencode "${1#*=}")"); shift ;;
       -h | --help)
         help "${FUNCNAME[0]}" "$([[ "$1" == "-h" ]] && echo 1)"
         return 0
@@ -773,6 +774,8 @@ update() {
   elif [[ "$raw_input" ]]; then
     title="$(urlencode "$raw_input")"
   fi
+
+  [[ "$title" ]] && url="${url}title=$title&"
 
   [[ "${#checklist_items[@]}" -gt 0 ]] &&
     url="${url}checklist-items=$(join "${checklist_items[@]}")&"
