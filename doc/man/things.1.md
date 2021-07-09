@@ -254,7 +254,26 @@ precedence over the `--notes=` option.
 
 **EXAMPLES**
 
-   XXX
+    things update --id=8TN1bbz946oBsRBGiQ2XBN "Finish add to Things script"
+
+    things update --id=8TN1bbz946oBsRBGiQ2XBN "Add a todo with notes
+
+    The first line of text is the note title and the rest of the text is
+    notes."
+
+    echo "Create a todo from STDIN" | things add --id=8TN1bbz946oBsRBGiQ2XBN -
+
+    things update --id=8TN1bbz946oBsRBGiQ2XBN -
+    Another way to create a todo from STDIN
+
+    I can type a long form note here for my todo, then press ctrl-d...
+    ^d
+
+    things update --id=8TN1bbz946oBsRBGiQ2XBN --deadline=2020-08-01 \
+      "Ship this script"
+
+    things update --id=8TN1bbz946oBsRBGiQ2XBN --when="2020-08-01 12:30:00" \
+      "Lunch time"
 
 **SEE ALSO**
 
@@ -420,15 +439,28 @@ precedence over the `--notes=` option.
 
 **EXAMPLES**
 
-    XXX
+    things update-project --id=8TN1bbz946oBsRBGiQ2XBN "The new project title"
+
+    things update-project --id=8TN1bbz946oBsRBGiQ2XBN "Set Title and add Notes
+
+    The first line of text is the project title and the rest of the text is
+    notes."
+
+    echo "Project title from STDIN" |
+      things update-project --id=8TN1bbz946oBsRBGiQ2XBN -
+
+    things update-project --id=8TN1bbz946oBsRBGiQ2XBN -
+    Another way to set the project title and notes from STDIN
+
+    These are the notes
+    ^d
+
+    things update --id=8TN1bbz946oBsRBGiQ2XBN --reveal
+      "Ship this project"
 
 **SEE ALSO**
 
 Authorization: https://culturedcode.com/things/support/articles/2803573/#overview-authorization
-
-**OPTIONS**
-
-**EXAMPLES**
 
 ## things show [OPTIONS...] [--] [-|QUERY]
 
@@ -463,14 +495,20 @@ If `-` is given as a query, it is read from STDIN.
 
 ## things search [--] [-|QUERY]
 
-Searches things for the specified query. if no query is specified, opens
+Searches things for the specified query. If no query is specified, opens
 the search window.
 
 If `-` is given as a query, it is read from STDIN.
 
 **EXAMPLES**
 
-    XXX
+    things search "Work"
+
+    echo "Home" | things search -
+
+    things search -
+    Finance
+    ^d
 
 ## things help [COMMAND]
 
