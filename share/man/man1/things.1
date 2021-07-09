@@ -312,8 +312,28 @@ line\.
 .PP
 \fBEXAMPLES\fP
 .LP
-.PP
-XXX
+.nf
+things update \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \[dq]Finish add to Things script\[dq]
+
+things update \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \[dq]Add a todo with notes
+
+The first line of text is the note title and the rest of the text is
+notes\.\[dq]
+
+echo \[dq]Create a todo from STDIN\[dq] \[or] things add \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \-
+
+things update \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \-
+Another way to create a todo from STDIN
+
+I can type a long form note here for my todo, then press ctrl\-d\.\.\.
+\(had
+
+things update \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \-\-deadline\[eq]2020\-08\-01 \e
+  \[dq]Ship this script\[dq]
+
+things update \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \-\-when\[eq]\[dq]2020\-08\-01 12:30:00\[dq] \e
+  \[dq]Lunch time\[dq]
+.fi
 .LP
 .PP
 \fBSEE ALSO\fP
@@ -521,7 +541,24 @@ to add multiple todos\. Optional\.
 \fBEXAMPLES\fP
 .LP
 .nf
-XXX
+things update\-project \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \[dq]The new project title\[dq]
+
+things update\-project \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \[dq]Set Title and add Notes
+
+The first line of text is the project title and the rest of the text is
+notes\.\[dq]
+
+echo \[dq]Project title from STDIN\[dq] \[or]
+  things update\-project \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \-
+
+things update\-project \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \-
+Another way to set the project title and notes from STDIN
+
+These are the notes
+\(had
+
+things update \-\-id\[eq]8TN1bbz946oBsRBGiQ2XBN \-\-reveal
+  \[dq]Ship this project\[dq]
 .fi
 .LP
 .PP
@@ -529,12 +566,6 @@ XXX
 .LP
 .PP
 Authorization: https:\[sl]\[sl]culturedcode\.com\[sl]things\[sl]support\[sl]articles\[sl]2803573\[sl]\[sh]overview\-authorization
-.LP
-.PP
-\fBOPTIONS\fP
-.LP
-.PP
-\fBEXAMPLES\fP
 .LP
 .SH things show [OPTIONS...] [--] [-|QUERY]
 .LP
@@ -578,7 +609,7 @@ upcoming
 .SH things search [--] [-|QUERY]
 .LP
 .PP
-Searches things for the specified query\. if no query is specified, opens
+Searches things for the specified query\. If no query is specified, opens
 the search window\.
 .LP
 .PP
@@ -588,7 +619,13 @@ If \fB-\fR is given as a query, it is read from STDIN\.
 \fBEXAMPLES\fP
 .LP
 .nf
-XXX
+things search \[dq]Work\[dq]
+
+echo \[dq]Home\[dq] \[or] things search \-
+
+things search \-
+Finance
+\(had
 .fi
 .LP
 .SH things help [COMMAND]
