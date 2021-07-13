@@ -261,7 +261,8 @@ precedence over the `--notes=` option.
     The first line of text is the note title and the rest of the text is
     notes."
 
-    echo "Create a todo from STDIN" | things add --id=8TN1bbz946oBsRBGiQ2XBN -
+    echo "Create a todo from STDIN" |
+      things update --id=8TN1bbz946oBsRBGiQ2XBN -
 
     things update --id=8TN1bbz946oBsRBGiQ2XBN -
     Another way to create a todo from STDIN
