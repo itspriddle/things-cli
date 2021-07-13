@@ -22,6 +22,8 @@ bats-setup:
 share/man/man1/things.1: doc/man/things.1.md
 	kramdown-man doc/man/things.1.md > share/man/man1/things.1
 
+man: doc/man/things.1.md share/man/man1/things.1
+
 install:
 	for dir in $(INSTALL_DIRS); do mkdir -p $(DESTDIR)$(PREFIX)/$$dir; done
 	for file in $(INSTALL_FILES); do cp $$file $(DESTDIR)$(PREFIX)/$$file; done
@@ -29,4 +31,4 @@ install:
 uninstall:
 	for file in $(INSTALL_FILES); do rm -f $(DESTDIR)$(PREFIX)/$$file; done
 
-.PHONY: bats-setup test test-shellcheck test-bats install uninstall
+.PHONY: bats-setup test test-shellcheck test-bats man install uninstall
